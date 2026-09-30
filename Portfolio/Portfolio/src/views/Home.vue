@@ -30,7 +30,7 @@ import { roles } from '../data'
         <img
           class="bounce-float"
           src="https://i.ibb.co/CKqGMVhr/cartoon.png"
-          alt="Illustrated portrait of Krishendree Kistensamy"
+          alt="portrait of Krishendree Kistensamy"
         >
       </div>
     </section>
@@ -38,7 +38,6 @@ import { roles } from '../data'
 </template>
 
 <style scoped>
-/* --- Hero layout --- */
 .hero {
   min-height: calc(100vh - 70px);
   display: flex;
@@ -56,7 +55,6 @@ import { roles } from '../data'
   max-width: 600px;
 }
 
-/* --- Eyebrow --- */
 .eyebrow {
   color: var(--color-eyebrow);
   font-size: 0.85rem;
@@ -66,7 +64,6 @@ import { roles } from '../data'
   margin-bottom: 12px;
 }
 
-/* --- Name title --- */
 .hero-title {
   font-family: var(--font-serif, 'Fraunces', Georgia, serif);
   line-height: 1.02;
@@ -94,7 +91,7 @@ import { roles } from '../data'
   letter-spacing: -0.01em;
 }
 
-/* --- Typewriter: override to left-align and match text size --- */
+/* Typewriter: override to left-align and match text size */
 :deep(.hero-subtitle) {
   justify-content: flex-start !important;
   text-align: left !important;
@@ -114,7 +111,6 @@ import { roles } from '../data'
   font-size: 1em;
 }
 
-/* --- CTA buttons --- */
 .hero-cta {
   display: flex;
   gap: 16px;
@@ -169,7 +165,6 @@ import { roles } from '../data'
   color: var(--color-dark);
 }
 
-/* --- Hero image --- */
 .hero-image {
   position: relative;
   flex: 1 1 320px;
@@ -186,7 +181,6 @@ import { roles } from '../data'
   filter: drop-shadow(0 25px 45px rgba(34, 22, 56, 0.25));
 }
 
-/* --- Floating chips --- */
 .chip {
   position: absolute;
   font-family: ui-monospace, Menlo, monospace;
@@ -223,7 +217,7 @@ import { roles } from '../data'
 .chip.c2 { animation-delay: 0.8s; }
 .chip.c3 { animation-delay: 1.6s; }
 
-/* --- Mobile --- */
+/* Mobile */
 @media (max-width: 700px) {
   .hero {
     flex-direction: column;

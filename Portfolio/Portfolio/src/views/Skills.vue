@@ -1,29 +1,7 @@
 <script setup>
-// All skills grouped logically
-const technicalSkills = [
-  { name: 'JavaScript', icon: '💻' },
-  { name: 'Python', icon: '🐍' },
-  { name: 'Node.js', icon: '🟢' },
-  { name: 'MySQL', icon: '🗄️' },
-  { name: 'HTML5', icon: '🌐' },
-  { name: 'CSS3', icon: '🎨' },
-  { name: 'Responsive Design', icon: '📱' },
-]
+import { technicalSkills, frameworksAndTools } from '../data'
 
-const frameworksAndTools = [
-  { name: 'Vue.js', icon: '🟩' },
-  { name: 'Bootstrap', icon: '🧩' },
-  { name: 'Express.js', icon: '🚂' },
-  { name: 'Flask', icon: '🍶' },
-  { name: 'REST APIs', icon: '🔌' },
-  { name: 'Git', icon: '🌿' },
-  { name: 'GitHub', icon: '🐙' },
-  { name: 'VS Code', icon: '🧑‍💻' },
-  { name: 'Figma', icon: '🎨' },
-  { name: 'Pinia', icon: '🍍' },
-]
-
-// Duplicate the arrays so the loop feels endless
+// triple each array for seamless looping
 const technicalLoop = [...technicalSkills, ...technicalSkills, ...technicalSkills]
 const toolsLoop = [...frameworksAndTools, ...frameworksAndTools, ...frameworksAndTools]
 </script>
@@ -44,7 +22,10 @@ const toolsLoop = [...frameworksAndTools, ...frameworksAndTools, ...frameworksAn
 
         <!-- TECHNICAL SKILLS — scrolls LEFT -->
         <div class="skill-group">
-          <h3 class="group-title">✨ Technical Skills</h3>
+          <h3 class="group-title">
+            <i class="fa-solid fa-code" aria-hidden="true"></i>
+            Technical Skills
+          </h3>
           <div class="marquee">
             <div class="track track-left">
               <span
@@ -52,7 +33,7 @@ const toolsLoop = [...frameworksAndTools, ...frameworksAndTools, ...frameworksAn
                 :key="'t' + i"
                 class="skill-pill"
               >
-                <span class="icon">{{ s.icon }}</span>
+                <i class="icon" :class="s.icon" aria-hidden="true"></i>
                 <span class="name">{{ s.name }}</span>
               </span>
             </div>
@@ -61,7 +42,10 @@ const toolsLoop = [...frameworksAndTools, ...frameworksAndTools, ...frameworksAn
 
         <!-- TOOLS & FRAMEWORKS — scrolls RIGHT -->
         <div class="skill-group">
-          <h3 class="group-title">🛠️ Tools &amp; Frameworks</h3>
+          <h3 class="group-title">
+            <i class="fa-solid fa-screwdriver-wrench" aria-hidden="true"></i>
+            Tools &amp; Frameworks
+          </h3>
           <div class="marquee">
             <div class="track track-right">
               <span
@@ -69,7 +53,7 @@ const toolsLoop = [...frameworksAndTools, ...frameworksAndTools, ...frameworksAn
                 :key="'f' + i"
                 class="skill-pill"
               >
-                <span class="icon">{{ t.icon }}</span>
+                <i class="icon" :class="t.icon" aria-hidden="true"></i>
                 <span class="name">{{ t.name }}</span>
               </span>
             </div>
@@ -150,12 +134,20 @@ const toolsLoop = [...frameworksAndTools, ...frameworksAndTools, ...frameworksAn
 }
 
 .group-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
   text-align: center;
   color: var(--color-accent);
   font-size: 1.25rem;
   font-weight: 600;
   margin-bottom: 26px;
   letter-spacing: 1px;
+}
+
+.group-title i {
+  font-size: 1.05rem;
 }
 
 /* --- Marquee / Carousel wrapper --- */
@@ -216,7 +208,7 @@ const toolsLoop = [...frameworksAndTools, ...frameworksAndTools, ...frameworksAn
 .skill-pill {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   padding: 12px 24px;
   border-radius: 999px;
   background: var(--color-card-bg);
@@ -242,9 +234,16 @@ const toolsLoop = [...frameworksAndTools, ...frameworksAndTools, ...frameworksAn
   box-shadow: 0 8px 20px rgba(255, 140, 66, 0.25);
 }
 
+/* Icons use the accent colour, then follow the pill's text colour on hover */
 .skill-pill .icon {
-  font-size: 1.05rem;
+  font-size: 1.15rem;
   line-height: 1;
+  color: var(--color-accent);
+  transition: color 0.25s ease;
+}
+
+.skill-pill:hover .icon {
+  color: inherit;
 }
 
 /* Respect reduced-motion users */

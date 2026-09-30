@@ -1,7 +1,4 @@
-// =====================================================
-//  PORTFOLIO DATA
-//  Edit this file to update content across the entire site.
-// =====================================================
+// portfolio data — edit this file to update site content
 
 export const FORMSPREE_URL = 'https://formspree.io/f/mwvzgkor'
 
@@ -26,9 +23,7 @@ export const roles = [
   'Detail-obsessed designer',
 ]
 
-// =====================================================
-//  TIMELINE (Education page)
-// =====================================================
+// timeline entries
 export const timeline = [
   {
     label: '2016 – 2020',
@@ -70,24 +65,31 @@ export const timeline = [
   },
 ]
 
-// =====================================================
-//  SKILLS
-// =====================================================
-export const ticker = [
-  'HTML5', 'CSS3', 'Bootstrap', 'JavaScript', 'Python',
-  'Responsive Design', 'VS Code', 'Git', 'GitHub', 'Figma', 'Rest API',
+// skills
+export const technicalSkills = [
+  { name: 'JavaScript',        icon: 'fa-brands fa-js' },
+  { name: 'Python',            icon: 'fa-brands fa-python' },
+  { name: 'Node.js',           icon: 'fa-brands fa-node-js' },
+  { name: 'MySQL',             icon: 'fa-solid fa-database' },
+  { name: 'HTML5',             icon: 'fa-brands fa-html5' },
+  { name: 'CSS3',              icon: 'fa-brands fa-css3-alt' },
+  { name: 'Responsive Design', icon: 'fa-solid fa-mobile-screen-button' },
 ]
 
-export const skills = [
-  'JavaScript', 'MySQL', 'Node.js', 'Python', 'HTML', 'CSS', 'Responsive Design',
+export const frameworksAndTools = [
+  { name: 'Vue.js',     icon: 'fa-brands fa-vuejs' },
+  { name: 'Bootstrap',  icon: 'fa-brands fa-bootstrap' },
+  { name: 'Express.js', icon: 'fa-solid fa-server' },
+  { name: 'Flask',      icon: 'fa-solid fa-flask' },
+  { name: 'REST APIs',  icon: 'fa-solid fa-plug' },
+  { name: 'Git',        icon: 'fa-brands fa-git-alt' },
+  { name: 'GitHub',     icon: 'fa-brands fa-github' },
+  { name: 'VS Code',    icon: 'fa-solid fa-code' },
+  { name: 'Figma',      icon: 'fa-brands fa-figma' },
+  { name: 'Pinia',      icon: 'fa-solid fa-boxes-stacked' },
 ]
 
-// =====================================================
-//  PROJECTS
-//  - `tags`: array of strings (shown as outline pills on the card)
-//  - `image`: URL string — if present, shows image on the card
-//  - `liveUrl`: (optional) live demo link
-// =====================================================
+// projects
 export const projects = [
   {
     title: 'Personal Portfolio Website',

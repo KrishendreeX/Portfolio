@@ -54,7 +54,6 @@ import { timeline } from '../data'
   margin: auto;
 }
 
-/* --- Header block --- */
 .section-title {
   position: relative;
   text-align: center;
@@ -67,7 +66,6 @@ import { timeline } from '../data'
   min-height: 200px;
 }
 
-/* Eyebrow: "EDUCATION & JOURNEY" */
 .eyebrow {
   position: relative;
   z-index: 3;
@@ -79,7 +77,6 @@ import { timeline } from '../data'
   margin-bottom: 14px;
 }
 
-/* Big serif "My timeline" */
 .main-title {
   position: relative;
   z-index: 3;
@@ -104,7 +101,6 @@ import { timeline } from '../data'
   letter-spacing: -0.01em;
 }
 
-/* Giant faded "TIMELINE" behind everything */
 .bg-text {
   position: absolute;
   top: 55%;
@@ -127,7 +123,6 @@ import { timeline } from '../data'
   color: rgba(255, 140, 66, 0.08);
 }
 
-/* --- Timeline Wrapper --- */
 .timeline-wrapper {
   background: var(--color-card-bg);
   border: 1px solid var(--color-card-border);
@@ -141,7 +136,6 @@ import { timeline } from '../data'
   box-shadow: 0 8px 40px rgba(0, 0, 0, 0.4);
 }
 
-/* --- Timeline list --- */
 #timeline {
   margin: 0 auto;
   padding: 0;

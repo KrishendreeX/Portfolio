@@ -34,7 +34,7 @@ import { projects } from '../data'
   margin: auto;
 }
 
-/* --- Eyebrow --- */
+/* Eyebrow */
 .eyebrow {
   color: var(--color-eyebrow);
   font-size: 0.85rem;
@@ -44,7 +44,7 @@ import { projects } from '../data'
   margin-bottom: 12px;
 }
 
-/* --- Big serif title --- */
+/* Big serif title */
 .page-title {
   font-family: var(--font-serif, 'Fraunces', Georgia, serif);
   font-size: clamp(2.5rem, 6vw, 4.5rem);
@@ -67,7 +67,7 @@ import { projects } from '../data'
   letter-spacing: -0.01em;
 }
 
-/* --- Projects grid --- */
+/* Projects grid */
 .projects-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -75,8 +75,8 @@ import { projects } from '../data'
   align-items: stretch;
 }
 
-/* --- Mobile --- */
-@media (max-width: 768px) {
+/* Mobile */
+@media (max-width: 600px) {
   .projects { padding: 40px 5% 60px 5%; }
   .page-title { font-size: clamp(2rem, 8vw, 3rem); margin-bottom: 40px; }
 }

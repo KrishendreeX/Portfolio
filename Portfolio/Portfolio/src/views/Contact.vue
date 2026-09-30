@@ -1,29 +1,50 @@
 <script setup>
-import { reactive, ref, onMounted } from 'vue'
-import { FORMSPREE_URL } from '../data'
+import { reactive, ref, onMounted, onBeforeUnmount } from 'vue'
+import { FORMSPREE_URL, contactInfo } from '../data'
 
 const driven = ref(false)
+let driveTimer = null
+let statusTimer = null
 
 onMounted(() => {
-  setTimeout(() => { driven.value = true }, 350)
+  driveTimer = setTimeout(() => { driven.value = true }, 350)
 })
 
-const form = reactive({ name: '', email: '', message: '' })
-const status = ref('')
+onBeforeUnmount(() => {
+  clearTimeout(driveTimer)
+  clearTimeout(statusTimer)
+})
+
+const emptyForm = () => ({ name: '', email: '', phone: '', message: '', _gotcha: '' })
+const form = reactive(emptyForm())
+const status = ref('') // '' | 'sending' | 'sent' | 'error'
+const errorMsg = ref('')
+
+function setStatus(value, clearAfterMs = 0) {
+  clearTimeout(statusTimer)
+  status.value = value
+  if (clearAfterMs) statusTimer = setTimeout(() => { status.value = '' }, clearAfterMs)
+}
 
 async function send() {
-  status.value = 'sending'
+  if (status.value === 'sending') return
+  errorMsg.value = ''
+  setStatus('sending')
+
   try {
     const res = await fetch(FORMSPREE_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
       body: JSON.stringify(form),
     })
-    if (!res.ok) throw new Error('Request failed')
-    status.value = 'sent'
-    Object.assign(form, { name: '', email: '', message: '' })
-  } catch {
-    status.value = 'error'
+
+    if (!res.ok) throw new Error(`Request failed (${res.status})`)
+
+    Object.assign(form, emptyForm())
+    setStatus('sent', 6000)
+  } catch (err) {
+    errorMsg.value = err.message || 'Something went wrong.'
+    setStatus('error', 8000)
   }
 }
 </script>
@@ -33,34 +54,31 @@ async function send() {
     <section class="contact">
       <div class="container">
 
-        <!-- 1. BIG ANIMATED TITLE -->
+        <!-- BIG ANIMATED TITLE -->
         <h1 class="hero-title">
           Let's make
           <span class="drive" :class="{ go: driven }">something</span>
           happen.
         </h1>
 
-        <!-- 2. SMALLER SUBTITLE -->
         <h2 class="subtitle">Contact Me</h2>
 
-        <!-- 3. SUB-TEXT -->
         <p class="sub-text">
           Have a project in mind, or just want to say hello?
           Send a message and I'll get back to you.
         </p>
 
-        <!-- 4. TWO-COLUMN LAYOUT -->
         <div class="contact-content">
 
           <div class="contact-info">
             <h3>Get In Touch</h3>
             <div class="info-item">
               <i class="fas fa-envelope"></i>
-              <span>krishendree@gmail.com</span>
+              <span>{{ contactInfo.email }}</span>
             </div>
             <div class="info-item">
               <i class="fas fa-location-dot"></i>
-              <span>Cape Town</span>
+              <span>{{ contactInfo.location }}</span>
             </div>
           </div>
 
@@ -68,13 +86,25 @@ async function send() {
             <form @submit.prevent="send">
               <input v-model.trim="form.name" type="text" name="name" placeholder="Full Name" required>
               <input v-model.trim="form.email" type="email" name="email" placeholder="Email Address" required>
-              <input type="tel" name="phone" placeholder="Phone Number">
+              <input v-model.trim="form.phone" type="tel" name="phone" placeholder="Phone Number">
               <textarea v-model.trim="form.message" name="message" rows="5" placeholder="Your Message" required></textarea>
+
+              <input
+                v-model="form._gotcha"
+                type="text"
+                name="_gotcha"
+                class="honeypot"
+                tabindex="-1"
+                autocomplete="off"
+                aria-hidden="true"
+              >
+
               <button type="submit" :disabled="status === 'sending'">
                 {{ status === 'sending' ? 'Sending…' : 'Send Message' }}
               </button>
-              <p v-if="status === 'sent'" class="status-msg success">Message sent!</p>
-              <p v-if="status === 'error'" class="status-msg error">Error sending message.</p>
+
+              <p v-if="status === 'sent'" class="status-msg success" role="status">Message sent!</p>
+              <p v-if="status === 'error'" class="status-msg error" role="alert">{{ errorMsg }}</p>
             </form>
           </div>
         </div>
@@ -85,11 +115,11 @@ async function send() {
 </template>
 
 <style scoped>
-/* ====== Layout ====== */
+/* Layout */
 .contact {
   padding: 160px 5% 100px 5%;
   min-height: 100vh;
-  overflow-x: hidden; /* Stops horizontal scrollbar from the slide-in */
+  overflow-x: hidden;
 }
 
 .container {
@@ -98,7 +128,7 @@ async function send() {
   margin: auto;
 }
 
-/* ====== 1. BIG ANIMATED TITLE ====== */
+/* title */
 .hero-title {
   text-align: center;
   font-size: clamp(2rem, 5vw, 3.8rem);
@@ -109,7 +139,7 @@ async function send() {
   font-family: var(--font-sans);
 }
 
-/* The word "something" — starts off-screen, slides in */
+/* animated word slides in from right */
 .drive {
   display: inline-block;
   font-style: italic;
@@ -136,7 +166,6 @@ async function send() {
   100% { opacity: 1; transform: none; }
 }
 
-/* ====== 2. SMALLER SUBTITLE ====== */
 .subtitle {
   text-align: center;
   font-size: clamp(1.1rem, 2vw, 1.6rem);
@@ -148,7 +177,6 @@ async function send() {
   font-family: var(--font-sans);
 }
 
-/* ====== 3. SUB-TEXT ====== */
 .sub-text {
   text-align: center;
   max-width: 620px;
@@ -158,7 +186,6 @@ async function send() {
   line-height: 1.7;
 }
 
-/* ====== 4. TWO-COLUMN CONTENT ====== */
 .contact-content {
   display: grid;
   grid-template-columns: 1fr 1.3fr;
@@ -166,7 +193,6 @@ async function send() {
   align-items: start;
 }
 
-/* --- Info column --- */
 .contact-info h3 {
   color: var(--color-accent);
   font-size: 1.3rem;
@@ -196,7 +222,6 @@ async function send() {
   flex-shrink: 0;
 }
 
-/* --- Form column --- */
 .contact-form form {
   display: flex;
   flex-direction: column;
@@ -239,6 +264,17 @@ async function send() {
   min-height: 140px;
 }
 
+.contact-form input.honeypot {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  border: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
 .contact-form button {
   padding: 16px;
   background: var(--color-accent);
@@ -272,14 +308,14 @@ async function send() {
 .status-msg.success { color: var(--color-accent); }
 .status-msg.error { color: #e42074; }
 
-/* ====== Reduced motion ====== */
+/* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   .drive { transform: none; }
   .drive.go { animation: softIn 0.8s ease forwards !important; }
   @keyframes softIn { from { opacity: 0; } to { opacity: 1; } }
 }
 
-/* ====== Mobile ====== */
+/* Mobile */
 @media (max-width: 768px) {
   .contact { padding: 130px 5% 60px 5%; }
 
