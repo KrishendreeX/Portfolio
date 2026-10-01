@@ -1,6 +1,6 @@
-// portfolio data — edit this file to update site content
+// portfolio data 
 
-export const FORMSPREE_URL = 'https://formspree.io/f/mwvzgkor'
+export const FORMSPREE_URL = 'https://formspree.io/f/xwlpzdnn'
 
 export const links = {
   linkedin: 'https://www.linkedin.com/in/krishendree-kistensamy-36a224370',
@@ -29,38 +29,47 @@ export const timeline = [
     label: '2016 – 2020',
     title: 'High School',
     text: [
-      'I completed my high school education at Spine Road High School, where I developed a strong foundation in various subjects.',
+      'Completed my high school education at Spine Road High School.',
     ],
   },
   {
     label: '2021 – 2023',
     title: 'Started my journey babysitting',
     text: [
-      'I started my journey as a babysitter, looking after children and ensuring their safety and well-being. This taught me responsibility, patience, and the importance of communication.',
+      'Worked as a babysitter, providing childcare and ensuring safety and well-being. This role helped me build patience, responsibility, and strong interpersonal skills.',
     ],
   },
   {
     label: '2021 – 2023',
     title: 'Makeup Artist',
     text: [
-      'I started my journey as a makeup artist, making people feel beautiful and confident in their own skin. This taught me creativity, attention to detail, and the importance of making people feel good about themselves.',
-      'I also learned the importance of communication and customer service, which are essential skills in any profession.',
+      'Worked as a freelance makeup artist, focusing on enhancing client confidence and collaborating on creative looks.',
+      'Developed strong customer service skills and a keen eye for fine details.',
     ],
   },
   {
     label: '2024 – 2025',
     title: 'Business Process Outsourcing Support',
     text: [
-      'I began my career in the BPO industry, where I developed strong communication and problem-solving skills. I also learned the importance of teamwork and customer service, which are essential skills in any profession.',
-      'Worked my way up, started as a lead generator to top sales agent, was in 8 campaigns in the same company within a year and a half, gaining 3 BPO certificates. Not long after I started as a junior team leader, working myself up into admin, where I learned the importance of leadership, management and admin.',
+      'Started as a lead generator and quickly progressed to a top sales agent, working across 8 different campaigns within 18 months and earning 3 BPO certificates.',
+      'Promoted to a junior team leader role and later transitioned into administration, gaining practical experience in team leadership, operations, and management.',
+    ],
+  },
+  {
+    label: '2026',
+    title: 'National Certificate - contact centre and business process outsourcing',
+    text: [
+      'Service SETA - NQF Level 3',
+      'Services SETA - SAQA ID 80566 - 124 CREDITS - 2026',
+      'Certified in customer service, contact centre operations, communication and business process supoort. ',
     ],
   },
   {
     label: '2026',
     title: 'Software Development Learnership',
     text: [
-      'I am currently completing a learnership with Life Choices Academy in full stack development.',
-      'I am learning various programming languages and technologies, including HTML, CSS, JavaScript, and more.',
+      'Currently completing an intensive, full-time full stack web development learnership at Life Choices Academy.',
+      'Building hands-on experience with modern web technologies including HTML, CSS, JavaScript, Vue, and Python.',
     ],
   },
 ]
@@ -122,7 +131,7 @@ export const projects = [
   {
     title: 'Hello Tech Mobile',
     image: 'https://i.ibb.co/202XqQfr/Screenshot-2026-06-02-091129.png',
-    text: 'An online phone store built with Bootstrap featuring responsive layouts, navigation, product cards, carousels, alerts, and contact forms.',
+    text: 'A modern mobile tech landing page highlighting product layouts, promotional carousels, and responsive design.',
     tags: ['HTML', 'Bootstrap', 'JavaScript'],
     url: 'https://github.com/KrishendreeX/exercise-4.git',
   },
@@ -149,5 +158,12 @@ export const projects = [
     tags: ['Vue 3', 'Vite', 'Node.js', 'Express.js', 'MySQL', 'PayFast', 'JWT'],
     url: 'https://github.com/ihtishaamj63-web/CleanSpaces.git',
     liveUrl: 'https://cleanspaces.onrender.com/',
+  },
+  {
+    title: 'Portfolio',
+    image: 'https://i.ibb.co/VcYVXgdB/image.png',
+    text: 'A responsive portfolio website showcasing my skills, projects, education, and contact information using HTML, CSS, and modern web design principles.',
+    tags: ['Vue 3', 'Vite', 'JavaScript', 'Bootstrap', 'HTML', 'CSS3', 'Formspree'],
+    url: 'https://github.com/KrishendreeX/Portfolio.git',
   },
 ]

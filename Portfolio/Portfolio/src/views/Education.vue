@@ -7,14 +7,12 @@ import { timeline } from '../data'
     <section class="education">
       <div class="container">
 
-        <!-- HEADER: eyebrow + serif title + faded background -->
         <div class="section-title">
           <p class="eyebrow">Education &amp; Journey</p>
           <h1 class="main-title">My <em>timeline</em></h1>
           <span class="bg-text">TIMELINE</span>
         </div>
 
-        <!-- TIMELINE WRAPPER -->
         <div class="timeline-wrapper">
           <ul id="timeline">
             <li v-for="(item, index) in timeline" :key="index" class="entry">
@@ -25,10 +23,11 @@ import { timeline } from '../data'
                 :checked="index === timeline.length - 1"
               >
               <label :for="'t' + index">
-                <span>{{ item.title }}</span>
+                <span>{{ item.shortTitle || item.title }}</span>
               </label>
               <span class="date">{{ item.label }}</span>
               <span class="circle"></span>
+
               <div class="content">
                 <h3>{{ item.title }}</h3>
                 <p v-for="(para, i) in item.text" :key="i">{{ para }}</p>
@@ -145,6 +144,7 @@ import { timeline } from '../data'
   position: relative;
   border-top: 3px solid var(--color-card-border);
   max-width: 1000px;
+  margin-bottom: 220px;
 }
 
 .entry {
@@ -159,20 +159,41 @@ import { timeline } from '../data'
 }
 
 .entry label {
-  display: inline-block;
-  padding: 10px 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: 90%;
+  max-width: 190px;
+  min-height: 84px;
+  margin: 0 auto;
+  padding: 10px 12px;
   border: 1px solid var(--color-card-border);
   border-radius: 10px;
   cursor: pointer;
   transition: 0.3s;
   color: var(--color-dark);
   font-weight: 500;
+  font-size: 0.95rem;
+  line-height: 1.35;
   background: var(--color-bg-base);
+}
+
+.entry label span {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .entry label:hover {
   border-color: var(--color-accent);
   color: var(--color-accent);
+}
+
+.entry input:checked + label {
+  color: var(--color-accent);
+  border-color: var(--color-accent);
 }
 
 .date {
@@ -196,6 +217,8 @@ import { timeline } from '../data'
 
 .content {
   position: absolute;
+  top: 100%;
+  margin-top: 16px;
   left: 50%;
   transform: translateX(-50%);
   width: 400px;
@@ -221,11 +244,6 @@ import { timeline } from '../data'
   transform: translateX(-50%) translateY(10px);
 }
 
-.entry input:checked + label {
-  color: var(--color-accent);
-  border-color: var(--color-accent);
-}
-
 .content h3 {
   font-family: var(--font-serif, 'Fraunces', Georgia, serif);
   font-size: 1.15rem;
@@ -244,7 +262,6 @@ import { timeline } from '../data'
   margin-bottom: 0;
 }
 
-/* --- Mobile --- */
 @media (max-width: 768px) {
   .education { padding: 40px 5% 60px 5%; }
 
@@ -273,6 +290,12 @@ import { timeline } from '../data'
     width: 100%;
   }
 
+  .entry label {
+    width: auto;
+    max-width: 100%;
+    justify-content: flex-start;
+  }
+
   .circle {
     top: 15px;
     left: -31px;
@@ -281,6 +304,7 @@ import { timeline } from '../data'
 
   .content {
     position: relative;
+    top: auto;
     left: 0;
     transform: none;
     width: 100%;

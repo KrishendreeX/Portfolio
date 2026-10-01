@@ -2,51 +2,55 @@
 import { reactive, ref, onMounted, onBeforeUnmount } from 'vue'
 import { FORMSPREE_URL, contactInfo } from '../data'
 
+// controls the "something" word sliding in
 const driven = ref(false)
 let driveTimer = null
-let statusTimer = null
 
 onMounted(() => {
   driveTimer = setTimeout(() => { driven.value = true }, 350)
 })
 
-onBeforeUnmount(() => {
-  clearTimeout(driveTimer)
-  clearTimeout(statusTimer)
-})
-
-const emptyForm = () => ({ name: '', email: '', phone: '', message: '', _gotcha: '' })
-const form = reactive(emptyForm())
-const status = ref('') // '' | 'sending' | 'sent' | 'error'
-const errorMsg = ref('')
-
-function setStatus(value, clearAfterMs = 0) {
-  clearTimeout(statusTimer)
-  status.value = value
-  if (clearAfterMs) statusTimer = setTimeout(() => { status.value = '' }, clearAfterMs)
+// spam bots fill in hidden fields, real people don't - that's _gotcha
+function emptyForm() {
+  return { name: '', email: '', phone: '', message: '', _gotcha: '' }
 }
+
+const form = reactive(emptyForm())
+const status = ref('') // '', 'sending', 'sent', 'error'
+const errorMsg = ref('')
+let statusTimer = null
 
 async function send() {
   if (status.value === 'sending') return
+
+  status.value = 'sending'
   errorMsg.value = ''
-  setStatus('sending')
 
   try {
-    const res = await fetch(FORMSPREE_URL, {
+    const response = await fetch(FORMSPREE_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
       body: JSON.stringify(form),
     })
 
-    if (!res.ok) throw new Error(`Request failed (${res.status})`)
+    if (!response.ok) throw new Error('Something went wrong. Please try again.')
 
     Object.assign(form, emptyForm())
-    setStatus('sent', 6000)
+    status.value = 'sent'
   } catch (err) {
-    errorMsg.value = err.message || 'Something went wrong.'
-    setStatus('error', 8000)
+    errorMsg.value = err.message
+    status.value = 'error'
   }
+
+  // clear the message after a bit so it doesn't sit there forever
+  clearTimeout(statusTimer)
+  statusTimer = setTimeout(() => { status.value = '' }, 6000)
 }
+
+onBeforeUnmount(() => {
+  clearTimeout(driveTimer)
+  clearTimeout(statusTimer)
+})
 </script>
 
 <template>
@@ -54,7 +58,6 @@ async function send() {
     <section class="contact">
       <div class="container">
 
-        <!-- BIG ANIMATED TITLE -->
         <h1 class="hero-title">
           Let's make
           <span class="drive" :class="{ go: driven }">something</span>
@@ -72,10 +75,12 @@ async function send() {
 
           <div class="contact-info">
             <h3>Get In Touch</h3>
+
             <div class="info-item">
               <i class="fas fa-envelope"></i>
               <span>{{ contactInfo.email }}</span>
             </div>
+
             <div class="info-item">
               <i class="fas fa-location-dot"></i>
               <span>{{ contactInfo.location }}</span>
@@ -84,15 +89,15 @@ async function send() {
 
           <div class="contact-form">
             <form @submit.prevent="send">
-              <input v-model.trim="form.name" type="text" name="name" placeholder="Full Name" required>
-              <input v-model.trim="form.email" type="email" name="email" placeholder="Email Address" required>
-              <input v-model.trim="form.phone" type="tel" name="phone" placeholder="Phone Number">
-              <textarea v-model.trim="form.message" name="message" rows="5" placeholder="Your Message" required></textarea>
+              <input v-model.trim="form.name" type="text" placeholder="Full Name" required>
+              <input v-model.trim="form.email" type="email" placeholder="Email Address" required>
+              <input v-model.trim="form.phone" type="tel" placeholder="Phone Number">
+              <textarea v-model.trim="form.message" rows="5" placeholder="Your Message" required></textarea>
 
+              <!-- hidden on purpose, catches spam bots -->
               <input
                 v-model="form._gotcha"
                 type="text"
-                name="_gotcha"
                 class="honeypot"
                 tabindex="-1"
                 autocomplete="off"
@@ -103,19 +108,18 @@ async function send() {
                 {{ status === 'sending' ? 'Sending…' : 'Send Message' }}
               </button>
 
-              <p v-if="status === 'sent'" class="status-msg success" role="status">Message sent!</p>
-              <p v-if="status === 'error'" class="status-msg error" role="alert">{{ errorMsg }}</p>
+              <p v-if="status === 'sent'" class="status-msg success">Message sent!</p>
+              <p v-if="status === 'error'" class="status-msg error">{{ errorMsg }}</p>
             </form>
           </div>
-        </div>
 
+        </div>
       </div>
     </section>
   </main>
 </template>
 
 <style scoped>
-/* Layout */
 .contact {
   padding: 160px 5% 100px 5%;
   min-height: 100vh;
@@ -128,7 +132,6 @@ async function send() {
   margin: auto;
 }
 
-/* title */
 .hero-title {
   text-align: center;
   font-size: clamp(2rem, 5vw, 3.8rem);
@@ -139,7 +142,7 @@ async function send() {
   font-family: var(--font-sans);
 }
 
-/* animated word slides in from right */
+/* starts off-screen right, slides in once .go gets added */
 .drive {
   display: inline-block;
   font-style: italic;
@@ -151,7 +154,6 @@ async function send() {
   color: transparent;
   opacity: 0;
   transform: translateX(110vw) skewX(-22deg);
-  will-change: transform, opacity;
   padding: 0 4px;
 }
 
@@ -174,7 +176,6 @@ async function send() {
   text-transform: uppercase;
   letter-spacing: 6px;
   margin-bottom: 24px;
-  font-family: var(--font-sans);
 }
 
 .sub-text {
@@ -241,12 +242,6 @@ async function send() {
   transition: border-color 0.25s ease, box-shadow 0.25s ease;
 }
 
-.contact-form input::placeholder,
-.contact-form textarea::placeholder {
-  color: var(--color-subtext);
-  opacity: 0.7;
-}
-
 .contact-form input:focus,
 .contact-form textarea:focus {
   outline: none;
@@ -254,16 +249,12 @@ async function send() {
   box-shadow: 0 0 0 3px rgba(228, 32, 116, 0.12);
 }
 
-[data-theme="dark"] .contact-form input:focus,
-[data-theme="dark"] .contact-form textarea:focus {
-  box-shadow: 0 0 0 3px rgba(255, 140, 66, 0.2);
-}
-
 .contact-form textarea {
   resize: vertical;
   min-height: 140px;
 }
 
+/* pushed off-screen so only bots "see" it, not real users */
 .contact-form input.honeypot {
   position: absolute;
   left: -9999px;
@@ -285,7 +276,6 @@ async function send() {
   font-size: 1rem;
   cursor: pointer;
   transition: transform 0.2s ease, opacity 0.2s ease, box-shadow 0.3s ease;
-  font-family: inherit;
   margin-top: 8px;
 }
 
@@ -308,20 +298,16 @@ async function send() {
 .status-msg.success { color: var(--color-accent); }
 .status-msg.error { color: #e42074; }
 
-/* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   .drive { transform: none; }
   .drive.go { animation: softIn 0.8s ease forwards !important; }
   @keyframes softIn { from { opacity: 0; } to { opacity: 1; } }
 }
 
-/* Mobile */
 @media (max-width: 768px) {
   .contact { padding: 130px 5% 60px 5%; }
-
   .subtitle { letter-spacing: 4px; }
   .sub-text { margin-bottom: 50px; }
-
   .contact-content {
     grid-template-columns: 1fr;
     gap: 40px;

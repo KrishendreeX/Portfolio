@@ -23,10 +23,6 @@ import { roles } from '../data'
       </div>
 
       <div class="hero-image">
-        <div class="chip bounce-float c1">&lt;creative /&gt;</div>
-        <div class="chip bounce-float c2">display: flex;</div>
-        <div class="chip bounce-float c3">const me = "unique";</div>
-
         <img
           class="bounce-float"
           src="https://i.ibb.co/CKqGMVhr/cartoon.png"
@@ -91,7 +87,7 @@ import { roles } from '../data'
   letter-spacing: -0.01em;
 }
 
-/* Typewriter: override to left-align and match text size */
+/* TypeWriter comes with its own centered styling, so pull it left to match everything else here */
 :deep(.hero-subtitle) {
   justify-content: flex-start !important;
   text-align: left !important;
@@ -181,29 +177,6 @@ import { roles } from '../data'
   filter: drop-shadow(0 25px 45px rgba(34, 22, 56, 0.25));
 }
 
-.chip {
-  position: absolute;
-  font-family: ui-monospace, Menlo, monospace;
-  font-size: 0.8rem;
-  padding: 6px 12px;
-  border-radius: 10px;
-  background: rgba(255, 255, 255, 0.85);
-  border: 1px solid rgba(34, 22, 56, 0.1);
-  backdrop-filter: blur(6px);
-  box-shadow: 0 4px 12px rgba(34, 22, 56, 0.08);
-  z-index: 2;
-}
-
-[data-theme="dark"] .chip {
-  background: rgba(20, 20, 20, 0.85);
-  border-color: rgba(255, 255, 255, 0.15);
-  color: var(--color-dark);
-}
-
-.c1 { top: 0; left: -6%; color: #2E9D84; }
-.c2 { top: 45%; right: -10%; color: #e42074; }
-.c3 { bottom: 4%; left: -4%; color: #eb6b27; }
-
 @keyframes bounceIdle {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-7px); }
@@ -213,11 +186,7 @@ import { roles } from '../data'
   animation: bounceIdle 4s ease-in-out infinite;
 }
 
-.chip.c1 { animation-delay: 0s; }
-.chip.c2 { animation-delay: 0.8s; }
-.chip.c3 { animation-delay: 1.6s; }
-
-/* Mobile */
+/* small screens */
 @media (max-width: 700px) {
   .hero {
     flex-direction: column;
@@ -228,14 +197,12 @@ import { roles } from '../data'
 
   .hero-copy { text-align: center; }
 
-  /* Center the typewriter on mobile */
   :deep(.hero-subtitle) {
     justify-content: center !important;
     text-align: center !important;
   }
 
   .hero-cta { justify-content: center; }
-  .chip { display: none; }
   .hero-image img { max-width: 280px; }
 }
 
