@@ -8,7 +8,7 @@ export const links = {
 }
 
 export const contactInfo = {
-  email: 'krishendree.kistensamy@gmail.com',
+  email: 'krishendree@gmail.com',
   linkedin: 'https://www.linkedin.com/in/krishendree-kistensamy-36a224370',
   github: 'https://github.com/KrishendreeX',
   location: 'South Africa',
